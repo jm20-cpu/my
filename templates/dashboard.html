@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}<h1>Dashboard</h1><div class="grid">
+<div class="stat"><b>{{stats.products}}</b><span>Products</span></div><div class="stat"><b>{{stats.stock}}</b><span>Units in stock</span></div>
+<div class="stat"><b>KSh {{'%.2f'|format(stats.sales)}}</b><span>Today's sales</span></div><div class="stat"><b>{{stats.low}}</b><span>Low-stock items</span></div></div>
+<div class="card"><div class="row"><h2>Recent Sales</h2><a class="button" href="{{url_for('pos')}}">Open POS</a></div><table><tr><th>ID</th><th>Customer</th><th>Payment</th><th>Total</th><th></th></tr>{% for s in recent %}<tr><td>#{{s.id}}</td><td>{{s.customer}}</td><td>{{s.payment_method}}</td><td>KSh {{'%.2f'|format(s.total)}}</td><td><a href="{{url_for('receipt',sid=s.id)}}">Receipt</a></td></tr>{% endfor %}</table></div>{% endblock %}

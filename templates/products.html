@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}<div class="row"><h1>Products</h1><a class="button" href="{{url_for('add_product')}}">+ Add Product</a></div>
+<form class="search"><input name="q" value="{{q}}" placeholder="Search product, SKU or category"><button>Search</button></form>
+<div class="card"><table><tr><th>Product</th><th>SKU</th><th>Category</th><th>Buy</th><th>Sell</th><th>Stock</th><th>Action</th></tr>
+{% for p in products %}<tr class="{{'low' if p.stock<=p.low_stock else ''}}"><td>{{p.name}}</td><td>{{p.sku or '-'}}</td><td>{{p.category or '-'}}</td><td>KSh {{'%.2f'|format(p.buy_price)}}</td><td>KSh {{'%.2f'|format(p.sell_price)}}</td><td>{{p.stock}}</td><td><a href="{{url_for('edit_product',pid=p.id)}}">Edit</a> <form class="inline" method="post" action="{{url_for('delete_product',pid=p.id)}}" onsubmit="return confirm('Delete this product?')"><button class="danger">Delete</button></form></td></tr>{% endfor %}</table></div>{% endblock %}

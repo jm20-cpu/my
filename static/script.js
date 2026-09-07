@@ -1,0 +1,8 @@
+let cart=[];
+function addItem(id,price,stock,name){let x=cart.find(i=>i.id===id);if(x){if(x.qty<stock)x.qty++;}else cart.push({id,price,stock,name,qty:1});render();}
+function removeItem(id){cart=cart.filter(i=>i.id!==id);render();}
+function changeQty(id,v){let x=cart.find(i=>i.id===id); if(x){x.qty=Math.max(1,Math.min(x.stock,parseInt(v)||1));render();}}
+function render(){let el=document.getElementById("cart"),total=0;if(!el)return;el.innerHTML=cart.map(i=>{total+=i.qty*i.price;return `<div class="cartrow"><span>${i.name}<br><small>KSh ${i.price.toFixed(2)}</small></span><input type="number" min="1" max="${i.stock}" value="${i.qty}" onchange="changeQty(${i.id},this.value)"><b>KSh ${(i.qty*i.price).toFixed(2)}</b><button class="danger" onclick="removeItem(${i.id})">×</button></div>`}).join("")||"<p>Cart is empty.</p>";document.getElementById("total").textContent=total.toFixed(2);}
+function filterProducts(){let q=document.getElementById("search").value.toLowerCase();document.querySelectorAll(".product").forEach(x=>x.style.display=x.dataset.name.includes(q)?"flex":"none");}
+async function checkout(){if(!cart.length)return alert("Cart is empty");let r=await fetch("/api/sale",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:cart.map(i=>({id:i.id,qty:i.qty})),customer_id:document.getElementById("customer").value||null,payment_method:document.getElementById("payment").value})});let d=await r.json();if(d.ok){window.location="/receipt/"+d.sale_id}else alert(d.error||"Sale failed");}
+render();
