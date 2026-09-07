@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Website</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        My Website
+    </div>
+
+    <nav>
+
+        <a href="{{ url_for('home') }}">Home</a>
+
+        <a href="#about">About</a>
+
+        <a href="#services">Services</a>
+
+        <a href="#contact">Contact</a>
+
+        <a href="{{ url_for('login') }}">Login</a>
+
+        <a class="nav-button"
+           href="{{ url_for('signup') }}">
+            Sign Up
+        </a>
+
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Build Something
+            <span>Amazing.</span>
+        </h1>
+
+        <p>
+            Welcome to our modern platform.
+            Create an account and discover
+            everything we have to offer.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('signup') }}"
+               class="primary-button">
+                Get Started
+            </a>
+
+            <a href="#services"
+               class="secondary-button">
+                Explore Services
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="about" class="section">
+
+    <div class="section-title">
+
+        <h2>About Us</h2>
+
+        <p>
+            A simple platform designed to
+            help you get started.
+        </p>
+
+    </div>
+
+    <div class="about-box">
+
+        <h3>Search our services</h3>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search services..."
+        >
+
+    </div>
+
+</section>
+
+
+<section id="services"
+         class="section services-section">
+
+    <div class="section-title">
+
+        <h2>Our Services</h2>
+
+        <p>
+            Explore what we can help you with.
+        </p>
+
+    </div>
+
+
+    <div class="service-grid">
+
+        <div class="service-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=80"
+                alt="Website Design"
+            >
+
+            <div class="service-content">
+
+                <h3>Website Design</h3>
+
+                <p>
+                    Modern and responsive websites
+                    for individuals and businesses.
+                </p>
+
+                <button
+                    onclick="serviceMessage('Website Design')">
+                    Learn More
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80"
+                alt="Data Analysis"
+            >
+
+            <div class="service-content">
+
+                <h3>Data Analysis</h3>
+
+                <p>
+                    Turn information into useful
+                    insights and better decisions.
+                </p>
+
+                <button
+                    onclick="serviceMessage('Data Analysis')">
+                    Learn More
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="service-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
+                alt="App Development"
+            >
+
+            <div class="service-content">
+
+                <h3>App Development</h3>
+
+                <p>
+                    Build useful web and mobile
+                    applications.
+                </p>
+
+                <button
+                    onclick="serviceMessage('App Development')">
+                    Learn More
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="contact"
+         class="section contact-section">
+
+    <div class="section-title">
+
+        <h2>Contact Us</h2>
+
+        <p>
+            Send us a message.
+        </p>
+
+    </div>
+
+
+    <form id="contactForm"
+          class="contact-form">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+        >
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            required
+        >
+
+        <textarea
+            name="message"
+            placeholder="Your Message"
+            required></textarea>
+
+        <button type="submit">
+            Send Message
+        </button>
+
+        <p id="formMessage"></p>
+
+    </form>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 My Website. All rights reserved.
+    </p>
+
+</footer>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>

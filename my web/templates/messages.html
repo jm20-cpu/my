@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Messages</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>My Website</h2>
+
+        <nav>
+
+            <a href="{{ url_for('admin') }}">
+                👑 Admin Panel
+            </a>
+
+            <a href="{{ url_for('admin_messages') }}">
+                📩 Messages
+            </a>
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                👤 My Profile
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                🌐 Website
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Messages</h1>
+
+                <p>
+                    Manage messages from your website.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <span>📩</span>
+
+                <h3>Total Messages</h3>
+
+                <p>
+                    {{ messages|length }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🔔</span>
+
+                <h3>Unread Messages</h3>
+
+                <p>
+                    {{ unread_count }}
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <h2>Inbox</h2>
+
+
+            <input
+                type="text"
+                id="messageSearch"
+                class="admin-search"
+                placeholder="Search messages..."
+            >
+
+
+            <div class="table-container">
+
+                <table id="messagesTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for message in messages %}
+
+                        <tr>
+
+                            <td>
+                                {{ message["id"] }}
+                            </td>
+
+                            <td>
+                                {{ message["name"] }}
+                            </td>
+
+                            <td>
+                                {{ message["email"] }}
+                            </td>
+
+                            <td>
+                                {{ message["message"] }}
+                            </td>
+
+                            <td>
+
+                                {% if message["status"] == "unread" %}
+
+                                    <span class="role-admin">
+                                        UNREAD
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="role-user">
+                                        READ
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if message["status"] == "unread" %}
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('mark_message_read', message_id=message['id']) }}"
+                                        class="inline-form"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="action-button"
+                                        >
+                                            Mark Read
+                                        </button>
+
+                                    </form>
+
+                                {% endif %}
+
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('delete_message', message_id=message['id']) }}"
+                                    class="inline-form"
+                                    onsubmit="return confirm('Delete this message?');"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="delete-button"
+                                    >
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="6">
+                                No messages yet.
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const searchInput =
+    document.getElementById("messageSearch");
+
+const rows =
+    document.querySelectorAll(
+        "#messagesTable tbody tr"
+    );
+
+searchInput.addEventListener(
+    "input",
+    function () {
+
+        const search =
+            searchInput.value.toLowerCase();
+
+        rows.forEach(function (row) {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            if (text.includes(search)) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
