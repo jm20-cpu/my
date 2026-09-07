@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Settings</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>My Website</h2>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                👤 My Profile
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                🌐 Website
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Settings</h1>
+
+                <p>
+                    Manage your account.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="dashboard-card">
+
+            <h2>Account Settings</h2>
+
+
+            {% if message %}
+
+                <div class="success-message">
+                    {{ message }}
+                </div>
+
+            {% endif %}
+
+
+            {% if error %}
+
+                <div class="error-message">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            <form
+                class="settings-form"
+                method="POST"
+                action="{{ url_for('settings') }}"
+            >
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ user['name'] }}"
+                    required
+                >
+
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ user['email'] }}"
+                    required
+                >
+
+
+                <label>
+                    New Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Leave blank to keep current password"
+                >
+
+
+                <button type="submit">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

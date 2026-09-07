@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Panel</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>My Website</h2>
+
+        <nav>
+
+            <a href="{{ url_for('admin') }}">
+                👑 Admin Panel
+            </a>
+
+            <a href="{{ url_for('admin_messages') }}">
+                📩 Messages
+            </a>
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                👤 My Profile
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                🌐 Website
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Admin Panel</h1>
+
+                <p>
+                    Manage your website.
+                </p>
+
+            </div>
+
+            <a class="logout-button"
+               href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </header>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <span>👥</span>
+
+                <h3>Total Users</h3>
+
+                <p>
+                    {{ total_users }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>👑</span>
+
+                <h3>Administrators</h3>
+
+                <p>
+                    {{ total_admins }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>👤</span>
+
+                <h3>Regular Users</h3>
+
+                <p>
+                    {{ total_regular_users }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>📩</span>
+
+                <h3>Messages</h3>
+
+                <p>
+                    {{ total_messages }}
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🔔</span>
+
+                <h3>Unread</h3>
+
+                <p>
+                    {{ unread_messages }}
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <h2>User Management</h2>
+
+
+            <input
+                type="text"
+                id="userSearch"
+                placeholder="Search users..."
+                class="admin-search"
+            >
+
+
+            <div class="table-container">
+
+                <table id="usersTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for user in users %}
+
+                        <tr>
+
+                            <td>
+                                {{ user["id"] }}
+                            </td>
+
+                            <td>
+                                {{ user["name"] }}
+                            </td>
+
+                            <td>
+                                {{ user["email"] }}
+                            </td>
+
+                            <td>
+
+                                {% if user["role"] == "admin" %}
+
+                                    <span class="role-admin">
+                                        ADMIN
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="role-user">
+                                        USER
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if user["id"] != session["user_id"] %}
+
+                                    {% if user["role"] == "admin" %}
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for('remove_admin', user_id=user['id']) }}"
+                                            class="inline-form"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="action-button"
+                                            >
+                                                Remove Admin
+                                            </button>
+
+                                        </form>
+
+                                    {% else %}
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for('make_admin', user_id=user['id']) }}"
+                                            class="inline-form"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="action-button"
+                                            >
+                                                Make Admin
+                                            </button>
+
+                                        </form>
+
+                                    {% endif %}
+
+
+                                    <form
+                                        method="POST"
+                                        action="{{ url_for('delete_user', user_id=user['id']) }}"
+                                        class="inline-form"
+                                        onsubmit="return confirm('Delete this user?');"
+                                    >
+
+                                        <button
+                                            type="submit"
+                                            class="delete-button"
+                                        >
+                                            Delete
+                                        </button>
+
+                                    </form>
+
+                                {% else %}
+
+                                    <strong>
+                                        You
+                                    </strong>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td colspan="5">
+                                No users found.
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+const searchInput =
+    document.getElementById("userSearch");
+
+const rows =
+    document.querySelectorAll(
+        "#usersTable tbody tr"
+    );
+
+searchInput.addEventListener(
+    "input",
+    function () {
+
+        const search =
+            searchInput.value.toLowerCase();
+
+        rows.forEach(function (row) {
+
+            const text =
+                row.textContent.toLowerCase();
+
+            if (text.includes(search)) {
+
+                row.style.display = "";
+
+            } else {
+
+                row.style.display = "none";
+
+            }
+
+        });
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>

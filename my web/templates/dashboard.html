@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>My Website</h2>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                👤 My Profile
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                🌐 Website
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Dashboard</h1>
+
+                <p>
+                    Welcome back,
+                    <strong>{{ user["name"] }}</strong>!
+                </p>
+
+            </div>
+
+            <a class="logout-button"
+               href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </header>
+
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <span>👤</span>
+
+                <h3>Account</h3>
+
+                <p>Active</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>👥</span>
+
+                <h3>Users</h3>
+
+                <p>{{ total_users }}</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span>🟢</span>
+
+                <h3>Status</h3>
+
+                <p>Online</p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <h2>Account Overview</h2>
+
+            <p>
+                Your account is active and ready to use.
+            </p>
+
+
+            <div class="info-row">
+
+                <strong>Name</strong>
+
+                <span>
+                    {{ user["name"] }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <strong>Email</strong>
+
+                <span>
+                    {{ user["email"] }}
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <h2>Quick Actions</h2>
+
+            <div class="quick-actions">
+
+                <a href="{{ url_for('profile') }}">
+                    👤 View Profile
+                </a>
+
+                <a href="{{ url_for('settings') }}">
+                    ⚙️ Settings
+                </a>
+
+                <a href="{{ url_for('home') }}">
+                    🌐 Visit Website
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+
+        <h2>My Website</h2>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                🏠 Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                👤 My Profile
+            </a>
+
+            <a href="{{ url_for('settings') }}">
+                ⚙️ Settings
+            </a>
+
+            <a href="{{ url_for('home') }}">
+                🌐 Website
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-content">
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>My Profile</h1>
+
+                <p>
+                    Your account information.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="profile-card">
+
+            <div class="profile-avatar">
+
+                {{ user["name"][0].upper() }}
+
+            </div>
+
+            <h2>
+                {{ user["name"] }}
+            </h2>
+
+            <p>
+                {{ user["email"] }}
+            </p>
+
+        </section>
+
+
+        <section class="dashboard-card">
+
+            <h2>Account Information</h2>
+
+
+            <div class="info-row">
+
+                <strong>Name</strong>
+
+                <span>
+                    {{ user["name"] }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <strong>Email</strong>
+
+                <span>
+                    {{ user["email"] }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <strong>Account ID</strong>
+
+                <span>
+                    {{ user["id"] }}
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <strong>Account Type</strong>
+
+                <span>
+                    {{ user["role"]|upper }}
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>
